@@ -1,0 +1,53 @@
+CREATE TABLE tb_prioridades
+( 
+	id integer NOT NULL, 
+	ordem_de_prioridade varchar(20) NOT NULL,
+	PRIMARY KEY (id)
+)
+
+INSERT INTO tb_prioridades (id, ordem_de_prioridade) VALUES (1, 'Alta'), (2, 'Média'), (3, 'Baixa')
+
+SELECT * FROM tb_prioridades
+
+CREATE TABLE tb_funcionarios
+(
+	id_funcionario integer NOT NULL, 
+	nome varchar(50),
+	cargo varchar(50),
+	PRIMARY KEY (id_funcionario)
+)
+
+INSERT INTO tb_funcionarios VALUES (1, 'João da Silva', 'Desenvolvedor Junior'),
+(2, 'Tereza Cristina da Costa', 'Desenvolvedora Sênior'), (3, 'Bruno de Oliveira', 'Desenvolvedor Pleno')
+
+SELECT * FROM tb_funcionarios
+
+CREATE TABLE tb_tarefas
+( 
+	numero integer NOT NULL,
+	titulo varchar(50) NOT NULL,
+	descricao varchar(200) NOT NULL,
+	responsavel integer NOT NULL, 
+	prioridade integer NOT NULL,
+	deadline date,
+	situacao varchar(50),
+	PRIMARY KEY (numero),
+	FOREIGN KEY (prioridade) REFERENCES tb_prioridades(id),
+	FOREIGN KEY (responsavel) REFERENCES tb_funcionarios(id_funcionario)
+)
+
+SELECT * FROM tb_tarefas
+
+CREATE OR REPLACE VIEW vw_tarefas (Numero, Titulo, Descricao, Deadline, Situacao, Prioridade, Responsavel) 
+	AS (SELECT tb_tarefas.numero, tb_tarefas.titulo, tb_tarefas.descricao, tb_tarefas.deadline, tb_tarefas.situacao, tb_prioridades.ordem_de_prioridade, tb_funcionarios.nome 
+	   FROM tb_tarefas JOIN tb_prioridades ON tb_tarefas.prioridade = tb_prioridades.id
+	   JOIN tb_funcionarios ON tb_funcionarios.id_funcionario = tb_tarefas.responsavel)
+
+SELECT * FROM vw_tarefas
+
+INSERT INTO tb_tarefas (numero, titulo, descricao, responsavel, prioridade, deadline, situacao) VALUES (1, 'Tarefa de Desenvolvimento', 'Desenvolver novo software para cliente', 2, 1, '14/04/2022', 'em andamento');
+INSERT INTO tb_tarefas (numero, titulo, descricao, responsavel, prioridade, deadline, situacao) VALUES (2, 'Tarefa de Update', 'Atualizar API de cadastros', 1, 2, '20/04/2022', 'em andamento');
+INSERT INTO tb_tarefas (numero, titulo, descricao, responsavel, prioridade, deadline, situacao) VALUES (3, 'Tarefa de Manutenção', 'Realizar modificação solicitadas por cliente', 3, 3, '30/04/2022', 'em andamento');
+
+
+
