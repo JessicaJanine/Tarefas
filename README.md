@@ -8,3 +8,5 @@ No projeto foi implementada um classe de conexão ao banco de dados, na qual for
 Foram implementados dois Controllers (ManagedBean) um para a página cadastrar tarefa e o outro para a página listagem de tarefas. 
 Nos controllers os métodos da classe conexão são chamados e as páginas xhtml se conectam aos seus respectivos controllers. 
 Infelizmente, ao rodar o projeto ele apresenta um erro em suas páginas xhtml e não executa corretamente e até o momento não tive tempo para identificar a fonte do erro e corrigi-lo por completo. 
+
+OBS: As classes.java estão divididas em 3 pacotes no projeto: Pacote "Conexao" com a classConexao; Pacote "Controllers" com cadastroMBean e listaDetarefas e Pacote "Tarefas" com as classes tarefaDAO e TbTarefa.
